@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
- * 11111
  * @author HZL
  *	想返回json字符串就用@RestController
  *	想返回页面就用@Controller
