@@ -1,0 +1,405 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>大厅等候</title>
+    <link href="/css/style_blue.css" rel="stylesheet"/>
+    <!--WebJars将我们常用的js打包成了jar包,pom导入依赖使用，页面像下面添加 -->
+    <script src="/webjars/jquery/3.3.1/jquery.js"></script>
+    <!-- 采用默认的资源路径时，请求地址无需加入static，如下/js/websocket_1.js系统自动至默认的路径（目前为classpath:/static/）下查找 -->
+    <!-- <script src="/js/websocket_1.js"></script> -->
+    <style>
+        .main .list .d1 {
+            width: 265px;
+        }
+
+        .main .list .d2 {
+
+        }
+
+        .main .list .d3 {
+            width: 808px;
+        }
+
+        .top .name {
+            font-size: 150px;
+        }
+
+        .main .list .w1, .main .list .w2, .main .list .w3 {
+            font-size: 60px;
+        }
+    </style>
+</head>
+<body style="zoom: 1">
+<div class="container">
+    <!--上部-->
+    <div class="top">
+        <div class="logo">
+            <img src="/images/logo.png">
+        </div>
+        <div class="name" style="color:#5a0000" id="triage_name"></div>
+        <div class="date" id="now_date"></div>
+        <div class="time" id="now_time"></div>
+    </div>
+
+    <!--中部-->
+    <div class="main">
+        <div class="list">
+            <div class="title">
+                <div class="w1 d1">诊室名称</div>
+                <div class="w1 d1 ">医生</div>
+                <div class="w2">正在就诊</div>
+                <div class="w2 d3">等候就诊</div>
+            </div>
+            <ul id="list">
+                <!--<li><div class="w1">诊室名称</div><div class="w2" style="color:#fff100">诊室名称</div><div class="w3"><span>dsfa</span><span>dsfa</span><span>dsfa</span></div></li>-->
+            </ul>
+        </div>
+
+    </div>
+    <div class="bottom" style="color:#5a0000">温馨提示：请保管好您的随身物品,耐心等候！！！</div>
+</div>
+<div class="tips_back" id="tips">
+    <div class="tips">
+        <div class="title" id="tips_zsmc"></div>
+        <div class="content">
+            <b id="hz_name"></b>
+        </div>
+    </div>
+</div>
+<audio src="" id="tone" hidden="hidden"></audio>
+</body>
+</html>
+<script type="text/javascript">
+    //地址参数说明：
+    //play:是否开启提示音true/false;默认关闭
+    var is_yinsi = true; //是否开启隐私保护
+    var page = 1;
+    var data,waitArray;
+    var k=0;
+    var firstCall = new Array();
+    function ShowTime() {
+        try {
+            var datetime = window.Callobject.getDateTime();
+            var year = datetime.split(' ')[0].split('-')[0].toString() + '年' + datetime.split(' ')[0].split('-')[1].toString() + '月' + datetime.split(' ')
+
+                [0].split('-')[2].toString() + '日';
+            var week = "　星期" + "日一二三四五六".charAt(datetime.split(' ')[2].toString().trim().replace('7', '0'));
+            var time = datetime.split(' ')[1].toString();
+            $("#now_date").html(year + week);
+            $("#now_time").html(time.split(':')[0] + ':' + time.split(':')[1]);
+        } catch (ex) {
+        }
+    }
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    var ip = getUrlParam("ip");
+    var play = getUrlParam("play");
+    var countScreen=getUrlParam("count");
+    //配置一个屏
+    if(countScreen==null||countScreen==""||countScreen==undefined){
+    	countScreen=0;
+    }
+    if (play != null && play != undefined) {
+        play = "true";
+    } else {
+        play = "false";
+    }
+    var myArray = [];
+    $("#tips").height(window.screen.availHeight);
+    var rows = 5;
+    //展示科室下面诊室等候患者
+    function PagerShow() {
+        try {
+            $("#list").html("");
+            var c = parseInt(data.count);
+            if (c > 0) {
+                var i = 0, j = rows;
+                var html = "";
+                if (c <= rows) {
+                    j = c;
+                    //setTimeout(GetList, 1000);
+                    //setTimeout(PagerShow, 1000);
+                } else {
+                    if (c > rows * page) {
+                        i = (rows * (page - 1));
+                        j = rows * page;
+                        page = page + 1;
+                    } else {
+                        i = (rows * (page - 1));
+                        j = c;
+                        page = 1;
+                        //GetList();
+                    }
+                }
+                for (var n = i; n < j; n++) {
+                    var jz = "";
+                    //修改部分 医生
+                    var ys = "";
+                    var dh = "";
+                    if (data.list[n].jzbh != "")
+                        //jz = "<b>&nbsp;&nbsp;|&nbsp;&nbsp;" + data.list[n].jzbh + "</b>";
+                        jz = "<b>&nbsp;&nbsp;|&nbsp;&nbsp;" + data.list[n].jz_name + "</b>";
+
+                    //修改部分
+                    if (data.list[n].zsmc != "")
+                        ys = "<span>" + data.list[n].zsmc_display + "</span>";
+                    if (data.list[n].dh_name0 != "" && data.list[n].dh_name0 != undefined && data.list[n].dh_id0!= undefined && data.list[n].dh_id0!= ""){
+                        dh = "<span>" + animation(data.list[n].dh_id0, data.list[n].dh_name0, data.list[n].dh_state0) + "</span>";
+	                    //修改部分
+		                myArray[n] = data.list[n].dh_id0 + "," + data.list[n].dh_name0;
+                    }
+
+                    if (data.list[n].dh_name1 != ""&&data.list[n].dh_name1!=undefined){
+                        dh += "<span>&nbsp;&nbsp;&nbsp;&nbsp;" + animation(data.list[n].dh_id1, data.list[n].dh_name1, data.list[n].dh_state1) + "</span>";
+                    }
+                    //正在就诊的人的号序
+                    var r_id = data.list[n].jzbh;
+                    //正在就诊的人的状态
+                    //var state = data.list[n].state_patient;
+               		var state = data.list[n].state_patient2;
+
+                    if (data.list[n].jzbh2 != 0 && data.list[n].state_patient2 != undefined) {
+                        if (data.list[n].state_patient2 == "2") {
+                            r_id = "复诊"
+                            state = 2;
+                        }
+                    }
+                    html += " <li>" +
+                        "<div class=\"w1 d1\" >" + data.list[n].pagerName + "</div>" +
+                        "<div class=\"w1 d1\" >" + ys + "</div>" +
+                        "<div class=\"w2\" style=\"color:#5a0000;\">" + animation(r_id, data.list[n].jz_name, state) + "&nbsp;</div>" +
+                        "<div class=\"w2 d3\">" + dh + "</div></li>";
+
+                }
+            } else {
+                //setTimeout(PagerShow, 1000);
+            }
+            $("#triage_name").html(data.fztname);
+            $("#list").html(html);
+            setTimeout(GetList, 1000);
+        } catch (err) {
+            setTimeout(GetList, 1000);
+        }
+        window.setTimeout(PagerShow,2000);
+    }
+	//个位号序前加0
+    function addPreZero(num) {
+        var t = (num + '').length,
+            s = '';
+
+        for (var i = 0; i < 3 - t; i++) {
+            s += '0';
+        }
+
+        return s + num;
+    }
+	//隐藏姓名
+    function hideword(str) {
+        if (is_yinsi) {
+            if (str.length > 3)
+                return str.replace(/^(\S{1})\S{2}(.*)$/, '$1**$2');
+            else 
+                return str.replace(/^(\S{1})\S{1}(.*)$/, '$1*$2');
+        } else
+            return str;
+    }
+	//加上患者状态
+    function animation(id, str, state) {
+        str = hideword(str);
+        var name = "";
+        var name_display = "";
+        if (str != "" && str!= undefined && id!="" && id!=undefined && state!=undefined) {
+            switch (state) {
+                case 2:
+                    name = str + "复";
+                    name_display = str + "<b style='color:5a0000;font-size:42px'>&nbsp;&nbsp;&nbsp;&nbsp;复</b>";
+                    break;
+                case 5:
+                    name = str + "优";
+                    name_display = str + "<b style='color:5a0000;font-size:42px'>&nbsp;&nbsp;&nbsp;&nbsp;优</b>";
+                    break;
+                case 8:
+                    name = str + "迟";
+                    name_display = str + "<b style='color:5a0000;font-size:42px'>&nbsp;&nbsp;&nbsp;&nbsp;迟</b>";
+                    break;
+                case 54:
+                    name = str + "过";
+                    name_display = str + "<b style='color:5a0000;font-size:42px'>&nbsp;&nbsp;&nbsp;&nbsp;过</b>";
+                    break;
+                default:
+                    name = id + str;
+                    name_display = str + "<b style='color:5a0000;font-size:42px'>&nbsp;&nbsp;&nbsp;&nbsp;" + addPreZero(id) + "号" + "</b>";
+                    break;
+            }
+        }
+        return name_display;
+    }
+	//获取各个诊室(医生)下面的等候患者
+    function GetList() {
+        try {
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: "/call_patient/list_patient_wait?t=" + new Date().getTime(),
+                contentType: "application/text;charset=utf-8",
+                dataType: "json",
+                cache: false,
+                success: function (pdata) {
+                    data = pdata;
+                    waitArray = pdata;
+                },
+                error: function () {
+                    data = {"count": 0, "fztname": "未知"};
+                }
+            });
+        } catch (err) {
+        }
+    }
+    if (play == "true") {
+        var tone = false;
+        var timeout = null;
+        var audio = document.getElementById('tone');
+        audio.autoplay = false;
+        audio.src = "/static/web/tone/1.mp3";
+    }
+
+    function dataUtil(data) {
+        if(data.list) {
+            var k = 0;
+            for (var i in data.list) {
+                var item = data.list[i];
+                //呼叫患者姓名
+                var callName = item.dh_name0;
+                //诊室名称
+                var terminal = item.pagerName;
+                //号序
+                var number = item.dh_id0;
+                if (item.state_patient2 == 2){
+                    number == "复诊";
+                }
+                setTimeout("showtips(" + 5000 + ", '" + callName + "','" + terminal + "','" + number + "')", k);
+                k = k + 5000;
+            }
+        }
+    }
+
+    /* function PagerCall() {
+        //console.log('检查呼叫');
+    	try {
+            $.ajax({
+                type: "GET",
+                url: "/clientPatientQueue/list_patient_call?t=" + new Date().getTime(),
+                contentType: "application/text;charset=utf-8",
+                dataType: "json",
+                cache: false,
+                data:{"count":countScreen},
+                success: function (data) {
+                    if (data.return_code == 'fail') {
+                        //console.log('无患者');
+                        setTimeout(PagerCall, 2000);
+                    } else {
+                        if (data.list != null) {
+                            var k = 0;
+                            for (var i = 0; i < data.list.length; i++) {
+                                var item = data.list[i];
+                                var r_id = item.register_id;
+                                var state = 51;
+                                if (item.state_patient2 != 0 && item.state_patient2 != undefined) {
+                                    if (item.state_patient2 == "2") {
+                                        r_id = "复诊"
+                                        state = 2;
+                                    }
+                                }
+                                //var t = ("请 " + r_id + "号" + item.patient_name + " 到" + item.jhqmc_display + "就诊。").length * 400;
+                                //var wait = ("请 " + waitArray.list[0].dh_id1 + "号" + waitArray.list[0].dh_name1 + " 到" + item.jhqmc_display + "等候。").length * 400;
+                                for (var k = 0; k < waitArray.list.length; k++) {
+                                    //如果存在多个科室，判断当前就诊人所属科室是否与循环拿出的科室一致（呼叫当前就诊人所属当前科室）
+                                    if (item.zsmc_display == waitArray.list[k].zsmc_display) {
+                                        //当前就诊人无,点击呼叫，点击之后当前就诊人不为空-----场景1
+                                        if (item.patient_name != null || item.patient_name != "") {
+                                            //呼叫患者姓名
+                                            var callName = waitArray.list[k].dh_name0;
+                                            //诊室名称
+                                            var terminal = item.jhqmc_display;
+                                            //号序
+                                            var number = waitArray.list[k].dh_id0;
+                                        }
+                                        //重呼
+                                        if (waitArray.list[k].chflag != null && waitArray.list[k].chflag == 0) {
+                                            //呼叫患者姓名
+                                            var callName = waitArray.list[k].dh_name0;
+                                            //诊室名称
+                                            var terminal = item.jhqmc_display;
+                                            //号序
+                                            var number = waitArray.list[k].dh_id0;
+                                        }
+                                    }
+                                }
+                                setTimeout("showtips(" + 5000 + ", '" + callName + "','" + terminal + "','" + number + "')", k);
+                                k = k + 5000;
+                            }
+                            if (k == 0)
+                                k = 2000;
+                            setTimeout(PagerCall, k);
+                        }
+                    }
+                }
+            });
+        } catch (err) {
+            setTimeout(PagerCall, 1000);
+        }
+    }  */
+     
+    function showtips(t, name, jhqmc, id) {
+          if(name=="undefined"||id=="undefined"||name==""||id==""){
+				return;
+          }else{
+	       		$("#hz_name").html("(" + id + ")" + name);
+	            $("#tips_zsmc").html(jhqmc);
+	            $("#tips").show(0).delay(t).hide(0);
+	            var callText = "<?xml version=\"1.0\" encoding=\"GB18030\"?>"
+	                + "<Contents><Content>"
+	                + "<Voice Num=\"1\" Speed=\"1000\" digitMode=\"2\">"
+	                + "请 " + id + "号" + name + " 到" + jhqmc + "候诊。"
+	                + "</Voice>"
+	                + "</Content></Contents>";
+	            window.Callobject.playVoice(callText);
+          }
+    }
+    
+    function AuotBD() {
+        $.ajax({
+            type: "GET",
+            url: "/call_patient/AutoSetPatientDisplay?t=" + new Date().getTime(),
+            contentType: "application/text;charset=utf-8",
+            dataType: "json",
+            cache: false,
+            success: function (data) {
+            }
+        });
+    }
+    
+    GetList();
+    PagerShow();
+    //PagerCall();
+    //window.setInterval("GetList()", 2000);
+    //window.setInterval("PagerShow()", 2000);
+    
+    if (getUrlParam("bd") == "auto") {
+        AuotBD();
+        window.setInterval(AuotBD, 30000);
+    }
+</script>
+

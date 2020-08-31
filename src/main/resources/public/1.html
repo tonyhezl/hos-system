@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>叫号器测试</title>
+    <script src="/cdroho/webjars/jquery/3.3.1/jquery.js"></script>
+    <!--<script src="../static/js/jquery.min.js"></script>-->
+</head>
+<body>
+<div class="main">
+
+    <button  id="callbtn" >呼叫</button>
+    <button  id="recallbtn" onclick="recall()">重呼</button>
+    <button  id="setpass" onclick="setPass()">过号</button>
+    <button  id="setover" onclick="setOver()">诊结</button>
+
+
+    <tr>
+        <td id="callingRegisterId"></td>
+        <td id="callingName"></td>
+    </tr>
+</div>
+</body>
+<script type="text/javascript">
+    var lockReconnect = false;
+    var webServerUrl;
+    function create(webServerUrl){
+        var socket;
+        if (!window.WebSocket) {
+            window.WebSocket = window.MozWebSocket;
+        }
+        if (window.WebSocket) {
+            socket = new WebSocket(webServerUrl);
+            //socket = new WebSocket("ws://192.168.2.60:8084/cdroho/productWebSocket/001");
+            //socket = new WebSocket("ws://192.168.2.60:8066/productWebSocket/001");
+            socket.onmessage = function (event) {
+                console.log("收到消息", event.data);
+            };
+            socket.onopen = function (event) {
+                console.log("websocket 打开了");
+            };
+            socket.onclose = function (event) {
+                console.log("websocket 关闭了");
+                try {
+                    lockReconnect = false;
+                    websocketReconnect(webServerUrl);
+                    onClose(evt);
+                }catch (e) {
+                    websocketReconnect(webServerUrl);
+                    onClose(evt);
+                }
+            };
+        }
+    }
+
+    var tt = null;
+    function websocketReconnect(url) {
+        if (lockReconnect) {       // 是否已经执行重连
+            return;
+        };
+        lockReconnect = true;
+        console.log("重来")
+        //没连接上会一直重连，设置延迟避免请求过多
+        tt && clearTimeout(tt);
+        tt = setTimeout(function () {
+            create(url);
+            lockReconnect = false;
+        }, 5000);
+    }
+
+    function onClose(evt) {
+        console.log("连接已关闭...");
+    }
+
+    window.onload=function(){
+        var serverUrl = (window.location.href).split("//")[1].split("/")[0];
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/cdroho/callogic/clientinfo",
+            contentType: "application/text;charset=utf-8",
+            dataType: "json",
+            cache: false,
+            success: function (data) {
+                if(data.code == 'success'){
+                    webServerUrl = "ws://" + serverUrl + "/cdroho/productWebSocket/"+ data.ip ;
+                    create(webServerUrl);
+                }
+            },
+            error: function () {
+                datas = { "count": 0, "fztname": "未知" };
+            }
+        });
+    }
+
+
+    var $saveBtn = $("#callbtn");
+    var $recallbtn = $("#recallbtn");
+    var param={"queueId":7,"sickId":1};
+    $saveBtn.click(function () {
+        $.ajax({
+            type : "post",
+            url : "/cdroho/callogic/call",
+            data:JSON.stringify(param),
+            contentType:"application/json",
+            dataType : "json",
+            success : function(data) {
+                if(data.code="success"){
+                    callingPatient = data;
+                    $("#callingRegisterId").text(data.registerId);
+                    $("#callingName").text(data.patientName);
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+    $recallbtn.click(function () {
+        $.ajax({
+            type : "post",
+            url : "/cdroho/callogic/reCall",
+            data:JSON.stringify(param),
+            contentType:"application/json",
+            dataType : "json",
+            success : function(data) {
+                if(data.code="success"){
+                    callingPatient = data;
+                    $("#callingRegisterId").text(data.registerId);
+                    $("#callingName").text(data.patientName);
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    })
+
+</script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>医院分诊</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" href="/cdroho/css/style.css">
+ </head>
+<body>
+<div class="cksp_box">
+    <div class="cksp_top">
+	   <div class="cksp_logo"></div>
+	   <div class="cksp_datetime">
+	     <ul>
+		   <li class="cksp_time" id="nowtime"><li/>
+		   <li class="cksp_date" id="nowdate"><li/>
+		 </ul>
+	   </div>
+	</div>
+	<div class="cksp_yyxx">
+	  <div class="cksp_doctor_img"  id="doctorimg"></div>
+	  <div class="cksp_doctor_right">
+	    <div class="cksp_ksname"  id="ksname"></div>
+		<div class="cksp_ysname_list mt28">
+		  <ul >
+		   <li class="cksp_ysname_title ">医生姓名</li>
+		   <li class="cksp_ysname_value" id="yyname"></li>
+		  </ul>
+		</div>
+		<div class="cksp_ysname_list mt10">
+		  <ul>
+		   <li class="cksp_ysname_title">医生职称</li>
+		   <li class="cksp_ysname_value" id="yyzc"></li>
+		  </ul>
+		</div>
+	  </div>
+	  <div class="cksp_yscontent" id="yyjs"></div>
+	</div>
+	<div class="cksp_jxxx">
+	  <div class="cksp_jxxx_top">
+	    <ul>
+		  <li class="cksp_zzjz_title">正在</br>就诊</li>
+		  <li class="cksp_zzjz_value" id="zjjz"></li>
+		</ul>
+	  </div>
+	  <div class="cksp_jxxx_foot">
+	   <ul>
+		  <li class="cksp_dhjz_title">等候</br>就诊</li>
+		  <li class="cksp_dhjz_value">
+		      <ul id="dhjz">
+			    
+			  </ul>
+		  
+		  </li>
+		</ul>
+	  </div>
+	</div>
+	<div class="cksp_ghry">
+	 	已过号：<span id="ghry"></span>
+	</div>
+	<div class="cksp_wxts">
+		温馨提示：<span id="wxts">就诊前，请在报到机上进行签到！！！请大家依次排队等候,保管好随身物品！！！</span>
+	</div>
+	<div class="cksp_hjxx" id="hjxx"></div>
+	<div class="cksp_wdl" id="wdl">诊室未登录</div>
+</div>
+<script src="/cdroho/webjars/jquery/1.9.1/jquery.js"></script>
+<script src="/cdroho/js/time.js"></script>
+<script src="/cdroho/js/ckxs.js"></script>
+
+</body>
+</html>

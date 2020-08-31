@@ -1,0 +1,312 @@
+body,ul,li,dl,ol,td,tr,div,a{text-decoration:none;font-family:"微软雅黑";list-style:none;margin:0;padding:0; line-height:24px}
+.demos-title {
+	text-align: center;
+	font-size: 1.2em;
+	color: black;
+	font-weight: 400;
+	padding: 0px 10px;
+}
+
+.demos-sub-title {
+	text-align: center;
+	color: black;
+	font-size: 1.5em;
+	padding:10px
+
+}
+
+.demos-header {
+	padding: 10px 0;
+	border-bottom:1px solid #ededed;
+}
+
+.demos-content-padded {
+	padding: 15px;
+}
+
+.demos-second-title {
+	text-align: center;
+	font-size: 24px;
+	color: #3cc51f;
+	font-weight: 400;
+	margin: 0 15%;
+}
+
+.footer {
+	text-align: center;
+	font-size: 14px;
+	padding: 20px;
+}
+
+.footer a {
+	color: #999;
+	text-decoration: none;
+}
+.placeholder1 {
+	width:18%;
+	float:left;
+	text-align: left;
+
+	margin: 5px;
+}
+.placeholder1 img{
+	width: 100%;
+	height: 100%;
+}
+.placeholder2{
+	width:44%;
+	float:left;
+	text-align: left;
+	margin:5px;
+}
+.placeholder3{
+	width:38%;
+	float:left;
+	text-align: left;
+	margin:5px;
+}
+.tllist{
+	width:100%;float:left;
+	text-align:left;
+	font-size:14px;padding-top:10px;
+}
+.tllist p span{
+	color:#ff9000
+}
+.tllist span{
+	color:#067aeb
+}
+/**窗口屏-竖屏**/
+.cksp_box{
+	width:1080px;height:1920px;float:left;
+	background: url(../images/small.jpg);
+}
+.cksp_top{
+	width:1080px;height:153px;float:left;
+}
+
+.cksp_yyxx{
+	width:1080px;height:740px;float:left;
+}
+.cksp_jxxx{
+	width:1080px;height:800px;float:left;
+}
+.cksp_logo{
+	width:579px;height:121px; float:left;margin-left:20px; margin-top:15px;background: url(../images/aaaa.png) no-repeat;
+}
+.cksp_datetime{
+	width:240px;height:153px;float:left;margin-left:196px
+}
+.cksp_datetime ul li{
+	text-align:center;
+}
+.cksp_time{
+	width:240px;height:102px;float:left;font-size:60px;line-height:102px
+}
+.cksp_date{
+	width:240px;height:40px;float:left;font-size:24px;line-height:40px
+}
+
+
+.cksp_doctor_img{
+	width:258px;height:348px;float:left;margin-top:48px;margin-left:52px
+}
+.cksp_doctor_right{
+	width:687px;height:356px;float:left;margin-top:48px;margin-left:32px
+}
+.cksp_ksname{
+	width:687px;height:146px;float:left;text-align:center;line-height:140px;color:white;font-size:72px;font-weight:bold
+}
+.cksp_ysname_list{
+	width:687px;height:84px;float:left;
+}
+.cksp_ysname_list ul li{
+	line-height:84px; text-align:center;font-size:36px
+}
+.cksp_ysname_title{
+	width:237px;height:84px;float:left;color:white
+}
+.mt28{
+	margin-top:28px;
+}
+.mt10{
+	margin-top:10px;
+}
+.cksp_ysname_value{
+	width:440px;height:84px;float:left;margin-left:10px
+}
+
+.cksp_yscontent{
+	width:970px;height:275px;float:left;margin-left:55px;margin-top:40px;text-indent:2em
+}
+.cksp_jxxx_top{
+	width:1000px;height:227px;float:left;margin-left:40px;margin-top:10px
+}
+.cksp_jxxx_top ul li{
+	float:left;height:227px;text-align:center;font-weight:bold;
+}
+.cksp_zzjz_title{
+	width:235px;height:227px;float:left;font-size:60px;line-height:72px;margin-top:35px;color:white
+}
+.cksp_zzjz_value{
+	width:740px;height:227px;float:left;margin-left:20px;font-size:60px;line-height:227px;color:red
+}
+
+.cksp_jxxx_foot{
+
+	width:1000px;height:535px;float:left;margin-left:40px;margin-top:18px;
+}
+.cksp_jxxx_foot ul li{
+	float:left;height:535px;text-align:center;font-weight:bold;
+}
+.cksp_dhjz_title{
+	width:235px;height:535px;float:left;font-size:60px;line-height:72px;margin-top:200px;color:white
+}
+.cksp_dhjz_value{
+	width:740px;height:535px;float:left;margin-left:20px;font-size:60px;line-height:227px;color:red
+}
+.cksp_dhjz_value ul li{
+	width:740px;height:80px;float:left;font-size:48px;color:black;line-height:80px;margin-top:20px
+}
+.cksp_ghry{
+	width:1000px;height:72px;float:left;margin-left:40px;line-height:72px;font-size:36px;color:red
+}
+.cksp_wxts{
+	width:850px;height:60px;float:left;margin:80px 0px 0px 120px;font-size:24px;line-height:60px
+}
+.cksp_hjxx{
+	width:1000px; height:500px;position:absolute;z-index:9999px;left:30px;top:750px;border-radius:5px;text-align:center;
+	font-size:100px;line-height:500px;font-weight:bold;color:red;border:10px white solid;
+	background: -moz-linear-gradient(top, #1ebd63 0%, #adfb74 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1ebd63), color-stop(100%,#adfb74));
+	background: -webkit-linear-gradient(top, #1ebd63 0%,#adfb74 100%);
+	background: -o-linear-gradient(top, #1ebd63 0%,#adfb74 100%);
+	background: -ms-linear-gradient(top, #1ebd63 0%,#adfb74 100%);
+	background: linear-gradient(to bottom, #1ebd63 0%,#adfb74 100%);
+	display:none
+}
+.cksp_wdl{
+	width:1020px; height:890px;position:absolute;z-index:9999px;border-radius:5px;text-align:center;left:20px;top:900px;
+	font-size:120px;line-height:900px;font-weight:bold;color:red;border:10px white solid;
+	background: -moz-linear-gradient(top, #1ebd63 0%, #adfb74 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1ebd63), color-stop(100%,#adfb74));
+	background: -webkit-linear-gradient(top, #1ebd63 0%,#adfb74 100%);
+	background: -o-linear-gradient(top, #1ebd63 0%,#adfb74 100%);
+	background: -ms-linear-gradient(top, #1ebd63 0%,#adfb74 100%);
+	background: linear-gradient(to bottom, #1ebd63 0%,#adfb74 100%);
+	display:none
+}
+/**综合屏**/
+.zhhp_box{
+	width:1920px;height:1080px;float:left;
+	background: url(../images/zzz.jpg);
+}
+.zhhp_top{
+	width:1920px;height:153px;float:left;
+}
+.zhhp_logo{
+	width:579px;height:121px; float:left;margin-left:20px; margin-top:15px;background: url(../images/aaaa.png) no-repeat;
+}
+.zhhp_datetime{
+	width:240px;height:153px;float:left;margin-left:1025px;
+}
+.zhhp_datetime ul li{
+	text-align:center;
+}
+.zhhp_time{
+	width:240px;height:102px;float:left;font-size:60px;line-height:102px
+}
+.zhhp_date{
+	width:240px;height:40px;float:left;font-size:24px;line-height:40px
+}
+.zhhp_pdxx{
+	width:1920px;height:740px;float:left;
+}
+.zhhp_pdxx_title{
+	width:1876px;height:110px;float:left;margin-left:22px;margin-top:24px
+}
+.zhhp_pdxx_pdxx{
+	width:1876px;height:600px;float:left;margin-left:22px;
+}
+.zhhp_pdxx_pdxx_list{
+	width:1876px;height:108px;float:left;margin-top:2px;
+}
+.zhhp_pdxx_pdxx_list ul li {
+	float:left;line-height:108px;font-size:42px;font-weight:bold
+}
+.zhhp_ksname{
+	width:529px;text-align:center;color:#02512c
+}
+.zhhp_ysname{
+	width:394px;text-align:center;
+}
+.zhhp_zzjz{
+	width:157px;text-align:center;color:red
+}
+.zhhp_dhjz{
+	width:1023px;text-align:left
+}
+
+.zhhp_ghry{
+	width:1850px;height:80px;float:left;margin-top:8px;margin-left:35px;line-height:72px;font-size:36px;color:red;text-indent:1em
+}
+.zhhp_wxts{
+	width:1800px;height:86px;float:left;margin:25px 0px 0px 120px;font-size:24px;line-height:60px
+}
+.zhhp_hjxx{
+	width:1428px; height:500px;position:absolute;z-index:9999px;left:200px;top:250px;border-radius:5px;text-align:center;
+	font-size:100px;line-height:500px;font-weight:bold;color:red;border:10px white solid;
+	background: -moz-linear-gradient(top, #1ebd63 0%, #adfb74 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1ebd63), color-stop(100%,#adfb74));
+	background: -webkit-linear-gradient(top, #1ebd63 0%,#adfb74 100%);
+	background: -o-linear-gradient(top, #1ebd63 0%,#adfb74 100%);
+	background: -ms-linear-gradient(top, #1ebd63 0%,#adfb74 100%);
+	background: linear-gradient(to bottom, #1ebd63 0%,#adfb74 100%);
+	display:none
+}
+/**呼叫器登录**/
+.login-bg{
+	background: #eeeeee;
+	background-size: cover;
+	overflow: hidden;
+}
+.form-wrap{background:#f8f8f8; margin-top:15px;}
+.login{
+	height: 600px;
+	width: 400px;
+	background-color: #ffffff;
+	margin-left: auto;
+	margin-right: auto;
+	/* overflow-x: hidden; */
+	box-sizing: border-box;float:left
+}
+
+.login_logo {
+	width:400px;
+	height:82px;float:left;
+	background: url(../images/ccc.jpg);text-align:center
+}
+.login_logo img{width:300px}
+.login_logo_title{
+	font-size:24px;text-align:center;color:#119d90;height:50px
+}
+.dologin{
+	width:400px;
+	float:left;
+	height:300px;
+}
+.calling_data{
+	width:400px;height:520px;float:left;
+	margin-top:10px
+}
+.calling_ksname{
+	background-color:#009688;color:white;font-size:18px;height:40px;line-height:30px;text-align:center
+}
+.calling_ysname{
+	background-color:#1E9FFF;color:white;font-size:18px;height:40px;line-height:30px;text-align:center
+}
+.calling_dqhj{
+	margin-top:10px;
+}
+.layui-tab-title li {width:150px}
+.layui-btn{width:100px}
