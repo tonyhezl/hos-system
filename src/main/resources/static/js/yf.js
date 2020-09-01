@@ -35,8 +35,8 @@
 				}
             },
             error: function () {
-               showWDlwindow(1);
-			   showDoctor();
+               //showWDlwindow(1);
+			   //showDoctor();
             }
         });
 	}
@@ -116,7 +116,7 @@
 			}
 			
 			for(var i=0;i<count;i++){
-				 str=str+data[i].sickName;
+				 str=str+data[i].name;
 			}
 		}
 		return str;
