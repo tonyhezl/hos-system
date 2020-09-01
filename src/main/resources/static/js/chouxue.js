@@ -21,7 +21,12 @@
 					var  zhxxdata=data.data;
 					waitWinow(zhxxdata);//综合信息显示
 					initghxx();//过号信息
-
+					$('#ksname').html(data.data[0].zsmc);
+					if(data.data[0].now.length>0){
+						$('#zzjz').html(data.data[0].now[0].name);
+					}else{
+						$('#zzjz').html("");
+					}
 				}
 			},
 			error: function () {
@@ -80,27 +85,20 @@
     }
 	/**等候信息**/
 	var waitWinow=function(data){
-		var count=5;
-		if(data.length >0){
-		  //封装字符串
-          if(data.length < 5){
-			 var  count=data.length;
-		  }
-		  var str='';
-		  for(var i=0;i<count;i++){
-			  //拼装字符串
-			  var waitstr=waitString(data[i].wait);
-			  if(data[i].now.length > 0){
-				  var zzjz=data[i].now[0].name
-			  }else{
-				  var zzjz='&nbsp;';
-			  }
-			  if (waitstr) {
-				  str = str + '<ul><li class="zhhp_ksname">' + data[i].zsmc + '</li><li class="zhhp_zzjz">' + zzjz + '</li><li class="zhhp_dhjz">' + waitstr + '</li></ul>';
-			  }else{
-				  str = str + '<ul><li class="zhhp_ksname">' + data[i].zsmc + '</li><li class="zhhp_zzjz">' + zzjz + '</li><li class="zhhp_dhjz">' + "" + '</li></ul>';
-			  }		  }
-		 $('#jzxx').html(str);
+		var count=10;
+		if(data.length > 0){
+			//封装字符串
+			if(data[0].wait.length < 10){
+				var  count=data[0].wait.length;
+			}
+			var str='<ul>';
+			for(var i=0;i<count;i++){
+				//拼装字符串
+
+				str=str+'<li>'+data[0].wait[i].name+'</li>';
+			}
+			str=str+'</ul>';
+			$('#zhxx').html(str);
 		}
 	}
 	/**候诊信息封装**/
@@ -123,23 +121,6 @@
 		hjxxWindow(data);
 		$("#hjxx").css("display","block");
 		var str='请'+data[0].name+'到'+zsmc+'抽血';
-		/*const u = new SpeechSynthesisUtterance('No warning should arise');
-		u.text = str;
-		u.lang = 'zh';
-		u.rate = 0.7;
-		u.volume = 6;
-		u.pitch = 10;
-		try {
-			let spe = window.speechSynthesis;
-			window.speechSynthesis.speak(u);
-			let vocies=[];
-			vocies=spe.getVoices();
-			/!*for(i = 0; i < vocies.length; i++) {
-				alert(vocies[i].name)
-			}*!/
-		} catch (e) {
-			alert(window.speechSynthesis);
-		}*/
 		$("#hjxx").html(str);
 		var show=setInterval(function(){
 		   $("#hjxx").css("display","none");
