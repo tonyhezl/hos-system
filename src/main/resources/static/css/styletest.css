@@ -264,6 +264,44 @@ body,ul,li,dl,ol,td,tr,div,a{text-decoration:none;font-family:"微软雅黑";lis
     background: linear-gradient(to bottom, #1ebd63 0%,#adfb74 100%);
 	display:none 
 }
+/**药房**/
+.yf_box{
+	width:1920px;height:1080px;float:left;
+	background: url(../images/yf_bg.jpg);
+}
+.yf_content{
+	width:1920px;height:730px;float:left;margin-top:10px
+
+}
+.yf_content_left{
+	width:840px;height:715px;float:left;margin-left:20px;margin-top:15px
+}
+.yf_content_left_title{
+	width:840px;height:283PX;float:left;
+	line-height:283PX; font-size:120px;text-align:center;color:red;font-weight:bold;
+}
+.yf_content_left_middle{
+	width:840px;height:126px;float:left;
+	line-height:126px; font-size:72px;text-align:center;color:white;font-weight:bold;
+}
+.yf_content_left_foot{
+	width:840px;height:267PX;float:left;
+	line-height:267PX; font-size:100px;text-align:center;color:red;font-weight:bold;
+}
+.yf_content_right{
+	width:1018px;height:715px;float:left;margin-left:14px;margin-top:15px
+}
+.yf_content_right_title{
+	width:1018px;height:110px;float:left;
+	line-height:110px; font-size:48px;text-align:center;color:white;font-weight:bold;
+}
+.yf_content_right_middle{
+	width:1018px;height:686px;float:left;
+}
+.yf_content_right_middle ul li{
+	width:508px;height:114px;float:left;
+	text-align:center;line-height:112px;font-size:48px;font-weight:bold;
+}
 /**呼叫器登录**/
 .login-bg{
 	background: #eeeeee;
