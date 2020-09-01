@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
- * 111
  * @author HZL
  *	想返回json字符串就用@RestController
  *	想返回页面就用@Controller
@@ -24,15 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/aaa")
 public class TestController{
 
-    /*@Autowired
-    private RabbitProducer producer;
-
-    @RequestMapping("query")
-    public String query() {
-
-        producer.stringSend();
-        return "/index_blue_pager.html";
-    }*/
 
     /**
      * websocket测试界面
@@ -115,6 +105,11 @@ public class TestController{
     @RequestMapping("inspect")
     public String queryInspect() {
         return "/inspect.html";
+    }
+
+    @RequestMapping("queryf")
+    public String queryYf() {
+        return "/yf.html";
     }
 
 }
