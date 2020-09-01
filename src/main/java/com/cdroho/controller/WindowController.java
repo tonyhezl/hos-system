@@ -162,7 +162,7 @@ public class WindowController {
                     resultMap.put("code","0");
                     resultMap.put("msg","查询等候患者成功！");
                     resultMap.put("data",checkSicks1);
-                    resultMap.put("ksname","1号窗口");
+                    resultMap.put("ksname","抽血窗口");
                 }else{
                     List<CheckSick> pass=new ArrayList<>();
                     pass=checkRepository.queryPassData(flag);
@@ -170,7 +170,7 @@ public class WindowController {
                     resultMap.put("code","0");
                     resultMap.put("msg","查询过号患者成功！");
                     resultMap.put("data",pass);
-                    resultMap.put("ksname","1号窗口");
+                    resultMap.put("ksname","抽血窗口");
                 }
             }
         }else if(loginType.equals("2")){
@@ -804,8 +804,8 @@ public class WindowController {
                     flag=5;
                 }
                 if (type.equals("1")) {
-                    treatSick=checkRepository.queryNowData(flag);
-                    dtoList=getCheck(flag,request);
+                    treatSick=checkRepository.queryNowData(1);
+                    dtoList=getCheck(1,request);
                 }else if(type.equals("2")){
                     treatSick=checkRepository.queryNowPharmacy(flag);
                     dtoList=checkRepository.queryNomOfPharmacy(flag);
