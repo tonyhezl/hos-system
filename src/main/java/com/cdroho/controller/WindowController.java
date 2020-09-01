@@ -28,6 +28,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @date 2020-6-28
  * @author HZL
  */
+@CrossOrigin
 @RestController
 @RequestMapping("window")
 public class WindowController {
