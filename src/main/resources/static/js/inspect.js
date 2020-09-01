@@ -89,7 +89,7 @@
 		var count=10;
 		if(data.length > 0){
 			//封装字符串
-			if(data.length < 10){
+			if(data[0].wait.length < 10){
 				var  count=data[0].wait.length;
 			}
 			var str='<ul>';
