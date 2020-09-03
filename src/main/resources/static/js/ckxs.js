@@ -3,8 +3,13 @@
 	var initurl='/cdroho/wait/small';
 	var ghxxurl="/cdroho/wait/getPass";
 	var is_yinsi=true;
+	var flag=true;
 	var zsmc='';
 	var queueId;
+	var p = $(this), c = p.children(),speed=3000; //值越大速度越小
+	var cw = c.width(),pw=p.width();
+	var t = (cw / 100) * speed;
+	var f = null, t1 = 0;
 	var initdata=function(){
 		$.ajax({
 			type: "GET",
@@ -14,6 +19,16 @@
 			dataType: "json",
 			cache: false,
 			success: function (data) {
+				if (flag) {
+					jQuery(".txtMarquee-left").slide({
+						mainCell: ".bd ul",
+						autoPlay: true,
+						effect: "leftMarquee",
+						vis: 3,
+						interTime: 50
+					});
+					flag = false;
+				}
 				if(data.msg=='faild'){
 					//未登录状态
 					showWDlwindow(1);
@@ -43,6 +58,7 @@
 			}
 		});
 	}
+
 	var initghxx=function(){
 		$.ajax({
 			type: "GET",
