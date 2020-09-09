@@ -10,6 +10,7 @@ var brid;//病人ID
 var sickName;//病人姓名
 var timer=5;//重复倒计时
 var hjstat=false;//呼叫状态
+var conflag=false;
 var tab='demo1';
 var initUrl='/cdroho/callogic/queryNowSick'
 var queueUrl='/cdroho/wait/machinedata';//队列数据
@@ -388,16 +389,30 @@ function schedule(){
 			data: data,
 			success: function (r) {
 				if (r.count > 0) {
-					k = r.count*1000
-					setTimeout(schedule, k);
-				} else {
-					waiteTable.reload();
-					k = 30000;
-					setTimeout(schedule, k);
+					if (r.count<10) {
+						k = r.count * 1000
+					}else{
+						k = r.count * 100
+					}
+					if (conflag) {
+						waiteTable.reload()
+						setTimeout(schedule, k)
+					}else{
+						setTimeout(schedule, k)
+					}
+					conflag=false;
+				} else if (r.code ==1){
+					if (conflag){
+						k = 5000
+					}else{
+						waiteTable.reload()
+					}
+					conflag=true;
+					setTimeout(schedule, k)
 				}
 			},
 			error: function (r) {
-				layer.msg('连接错误，请联系管理员！');
+				layer.msg('连接错误，请联系管理员！')
 			}
 		})
 	} catch (err) {
