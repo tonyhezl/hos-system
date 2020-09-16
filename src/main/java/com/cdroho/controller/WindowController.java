@@ -213,6 +213,25 @@ public class WindowController {
                     resultMap.put("ksname","2号窗口");
                 }
             }
+            if(loginCode.equals("005")){
+                if (type.equals("1")) {
+                    List<CheckSick> nomSicks=new ArrayList<>();
+                    nomSicks=checkRepository.queryNomOfPharmacy(flag);
+                    resultMap.put("count",nomSicks.size());
+                    resultMap.put("code","0");
+                    resultMap.put("msg","查询等候患者成功！");
+                    resultMap.put("data",nomSicks);
+                    resultMap.put("ksname","5号窗口");
+                }else{
+                    List<CheckSick> passSicks=new ArrayList<>();
+                    passSicks=checkRepository.queryPassOfPharmacy(flag);
+                    resultMap.put("count",passSicks.size());
+                    resultMap.put("code","0");
+                    resultMap.put("msg","查询过号患者成功！");
+                    resultMap.put("data",passSicks);
+                    resultMap.put("ksname","5号窗口");
+                }
+            }
         }else{
             //取报告
             if(loginCode.equals("006")){
@@ -269,6 +288,12 @@ public class WindowController {
         }
         if(loginCode.equals("004")){
             resultMap.put("flag",4);
+            resultMap.put("loginCode",loginCode);
+            resultMap.put("type",type);
+            resultMap.put("code", "success");
+        }
+        if(loginCode.equals("005")){
+            resultMap.put("flag",5);
             resultMap.put("loginCode",loginCode);
             resultMap.put("type",type);
             resultMap.put("code", "success");
