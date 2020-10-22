@@ -51,7 +51,8 @@ public class CallSickController {
     /**
      * 呼叫器呼叫按钮操作
      * 通过查询与叫号器绑定的屏幕，获取屏幕的ip，通过websocket向这些屏幕发送消息
-     * @param params
+     * @param queueId
+     * @param sickId
      * @param request
      * @return
      */
@@ -89,7 +90,8 @@ public class CallSickController {
 
     /**
      * 呼叫器重呼按钮操作
-     * @param params
+     * @param queueId
+     * @param sickId
      * @param request
      * @return
      */
@@ -128,7 +130,8 @@ public class CallSickController {
 
     /**
      * 呼叫器过号按钮操作
-     * @param params
+     * @param sickId
+     * @param queueId
      * @param request
      * @return
      */
@@ -170,7 +173,8 @@ public class CallSickController {
 
     /**
      * 呼叫器诊结按钮操作
-     * @param params
+     * @param queueId
+     * @param sickId
      * @param request
      * @return
      */
@@ -191,9 +195,8 @@ public class CallSickController {
     }
 
     /**
-     *获取当前就诊人
+     * 获取当前就诊人
      * @param queueId
-     * @param sickId
      * @return
      */
     @PostMapping("queryNowSick")
