@@ -18,6 +18,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * websocket呼叫
+ * 此对象唯一，加synchronized修饰方法，锁定该对象。
+ * 则其他访问该对象的线程被阻塞
  * @author HZL
  * @date 2020-4-20
  */
@@ -49,7 +51,7 @@ public class WebSocketCall {
      * @param request
      * @return
      */
-    public List<SickDto> websocketCall(Map<String,Long> params, SortRuleDto ruleDto,String ip, long queueId,String macIp,
+    public synchronized List<SickDto> websocketCall(Map<String,Long> params, SortRuleDto ruleDto,String ip, long queueId,String macIp,
                                        long sickId, long type, HttpServletRequest request, List<RoomDto> roomDtos){
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
