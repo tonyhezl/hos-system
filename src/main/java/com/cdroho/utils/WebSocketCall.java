@@ -2,10 +2,7 @@ package com.cdroho.utils;
 
 import com.cdroho.controller.PatientController;
 import com.cdroho.logicalrepository.MachineRepository;
-import com.cdroho.modle.dto.RoomDto;
-import com.cdroho.modle.dto.SickDto;
-import com.cdroho.modle.dto.SortRuleDto;
-import com.cdroho.modle.dto.WbsDto;
+import com.cdroho.modle.dto.*;
 import com.cdroho.service.WaitQueueService;
 import com.cdroho.websocket.ProductWebSocket;
 import org.dom4j.DocumentException;
@@ -79,6 +76,7 @@ public class WebSocketCall {
         passMac=queueService.getPassSickMachine(queueId,stateMac);
 
         ProductWebSocket socket = new ProductWebSocket();
+        ProductWebSocket callSocket = new ProductWebSocket();
         //正在就诊8,大、小屏叫号标识
         long sickState=8, small=66, big=77;
         Boolean flag=false;
@@ -108,6 +106,14 @@ public class WebSocketCall {
             finalResult.addAll(treatSick);
             finalResult.addAll(waitSick);
             //大小屏两个ip分别对应两个ProductWebSocket对象
+            for(ProductWebSocket productWebSocket:webSockets){
+                if(macIp.equals(productWebSocket.getClientip())){
+                    Map<String,Object> map=new HashMap();
+                    map.put("wait",trans(waitSick));
+                    callSocket = productWebSocket;
+                    callSocket.sendMessage(JsonToMap.mapToJson(map).toString());
+                }
+            }
             for(ProductWebSocket productWebSocket:webSockets){
                for(RoomDto dto:roomDtos){
                    if(dto.getRoomIp().equals(productWebSocket.getClientip())){
@@ -187,5 +193,18 @@ public class WebSocketCall {
             dto.setResultMessage("暂无等候患者，推送失败！");
         }
         return dto;
+    }
+
+    public List<CallDto> trans(List<SickDto> wait){
+        List<CallDto> callList=new ArrayList<CallDto>();
+        for(SickDto dto:wait){
+            CallDto callDto=new CallDto();
+            callDto.setId(dto.getId());
+            callDto.setSickName(dto.getSickName());
+            callDto.setSickNumber(dto.getSickNumber());
+            callDto.setSickState(dto.getSickState());
+            callList.add(callDto);
+        }
+        return callList;
     }
 }

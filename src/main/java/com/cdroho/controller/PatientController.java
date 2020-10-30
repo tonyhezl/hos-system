@@ -642,10 +642,74 @@ public class PatientController {
      * 叫号器数据来源
      * @param type
      * @param queueId
-     * @param nurseId
      * @param request
      * @return
      */
+    @PostMapping("machinedatatwo")
+    public Map getMachineDataTwo(@RequestParam(value="type") String type,@RequestParam(value="queueId") long queueId,
+                              @RequestParam(value="loginCode") String loginCode,HttpServletRequest request){
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        int nowHours = now.get(Calendar.HOUR_OF_DAY);
+        Map<String,Long> params=new HashMap<String,Long>();
+        Map<String,Object> result=new HashMap<String,Object>();
+        try {
+            Object[] o= queueRepository.queryNurseByLoginCode(loginCode);
+            Object[] oarr=null;
+            if(o.length==0){
+                result.put("code","1");
+                result.put("msg","暂无挂号队列！");
+                return result;
+            }else{
+                oarr=(Object[])o[0];
+            }
+            Long nurseId;
+            nurseId = Long.valueOf(String.valueOf(oarr[0]));
+            params.put("queueId",queueId);
+            params.put("nurseId",nurseId);
+        } catch (NumberFormatException e) {
+           log.info("叫号器暂无医生");
+        }
+        List<SickDto> wait=new ArrayList<>();
+        if(type.equals("1")){
+            try {
+                wait=getPaientList(params,request);
+            } catch (Exception e) {
+                log.info("获取分诊台规则为空！");
+            }
+            if(wait.size()>0){
+                result.put("count",wait.size());
+                result.put("code","0");
+                result.put("msg","查询等候患者成功！");
+                result.put("data",trans(wait));
+            }else{
+                result.put("code","1");
+                result.put("msg","暂无等候患者！");
+            }
+        }else{
+            List<SickDto> sickDtos=new ArrayList<>();
+            long passState=6;
+            if (nowHours<13) {
+                sickDtos=queueService.getPassSick(queueId,passState,1);
+            }else if(nowHours>=13){
+                sickDtos=queueService.getPassSick(queueId,passState,2);
+            }
+            if(sickDtos.size()>0){
+                result.put("count",sickDtos.size());
+                result.put("code","0");
+                result.put("msg","查询过号患者成功！");
+                result.put("data",sickDtos);
+            }else if(sickDtos.size()==0){
+                result.put("code","1");
+                result.put("msg","暂无过号患者！");
+            }else{
+                result.put("code","1");
+                result.put("msg","查询过号患者失败！");
+            }
+        }
+        return result;
+    }
+
     @PostMapping("machinedata")
     public Map getMachineData(@RequestParam(value="type") String type,@RequestParam(value="queueId") long queueId,
                               @RequestParam(value="loginCode") String loginCode,HttpServletRequest request){
@@ -669,7 +733,7 @@ public class PatientController {
             params.put("queueId",queueId);
             params.put("nurseId",nurseId);
         } catch (NumberFormatException e) {
-           log.info("叫号器暂无医生");
+            log.info("叫号器暂无医生");
         }
         List<SickDto> wait=new ArrayList<>();
         if(type.equals("1")){
@@ -710,11 +774,8 @@ public class PatientController {
         }
         return result;
     }
-
-
     /**
      * 扫码报到
-     * @param params
      * @return
      */
     @PostMapping("scan")
@@ -731,7 +792,6 @@ public class PatientController {
 
     /**
      * 患者报到
-     * @param dto
      * @return
      */
     @PostMapping("reportSick")
@@ -931,5 +991,18 @@ public class PatientController {
             dto.setNursId(0);
         }
         return dto;
+    }
+
+    public List<CallDto> trans(List<SickDto> wait){
+        List<CallDto> callList=new ArrayList<CallDto>();
+        for(SickDto dto:wait){
+            CallDto callDto=new CallDto();
+            callDto.setId(dto.getId());
+            callDto.setSickName(dto.getSickName());
+            callDto.setSickNumber(dto.getSickNumber());
+            callDto.setSickState(dto.getSickState());
+            callList.add(callDto);
+        }
+        return callList;
     }
 }
