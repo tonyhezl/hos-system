@@ -218,9 +218,9 @@ window.onload=function(){
 						brid='';
 						name='';
 						if(tab=='demo1'){
-							waiteTable.reload();
+							//waiteTable.reload();
 						}else{
-							overdueDataTable.reload();
+							//overdueDataTable.reload();
 						}
 
 					}else{
@@ -300,9 +300,9 @@ window.onload=function(){
 					brid='';
 					sickName='';
 					if(tab=='demo1'){
-						waiteTable.reload();
+						//waiteTable.reload();
 					}else{
-						overdueDataTable.reload();
+						//overdueDataTable.reload();
 					}
 
 				}else{
@@ -338,9 +338,9 @@ window.onload=function(){
 				lockcallbutton();
 				if(tab=='demo1'){
 					console.log(socketData)
-					waiteTable.reload();
+					//waiteTable.reload();
 				}else{
-					overdueDataTable.reload();
+					//overdueDataTable.reload();
 				}
 			}else{
 				layer.msg('呼叫失败！');
